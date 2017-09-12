@@ -1,5 +1,4 @@
 config defaults 'defaults'
-        option host '51.254.49.132'
         option timeout '1'
         option tries '3'
         option interval '2'
@@ -7,3 +6,11 @@ config defaults 'defaults'
 
 config rule_type 'tunnel'
         option tries '5'
+
+config tracker 'default1'
+	list interfaces all
+	host '51.254.49.132'
+
+config tracker 'default2'
+	list interfaces all
+	host '51.254.49.133'

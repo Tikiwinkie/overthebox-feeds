@@ -1,10 +1,18 @@
 # shellcheck disable=1091
 # vim: set ft=sh noexpandtab tabstop=4 shiftwidth=4 softtabstop=4 :
 
-old_status=$(otb_get_data "$OTB_TRACKER_INTERFACE/connectivity")
+old_status=$(otb_get_data "$OTB_TRACKER_INTERFACE/$OTB_TRACKER_LABEL/connectivity")
 
 [ "$old_status" = "$OTB_TRACKER_STATUS" ] && exit 0
 
-logger -t "otb-tracker" "$OTB_TRACKER_INTERFACE tracking status changed to $OTB_TRACKER_STATUS"
+logger -t "otb-tracker" "$OTB_TRACKER_LABEL tracking status changed to $OTB_TRACKER_STATUS"
 
-otb_set_data "$OTB_TRACKER_INTERFACE/connectivity" "$OTB_TRACKER_STATUS"
+otb_set_data "$OTB_TRACKER_INTERFACE/$OTB_TRACKER_LABEL/connectivity" "$OTB_TRACKER_STATUS"
+
+global_status="ERROR"
+for tracker_dir in ; do
+	local_status=$(cat "$tracker_dir"/connectivity)
+	[ "$local_status" = "OK" ] && global_status="OK" && break
+done
+
+otb_set_data "$OTB_TRACKER_INTERFACE/connectivity" "$global_status"

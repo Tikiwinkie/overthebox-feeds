@@ -4,6 +4,7 @@ otb_metric=
 otb_host=
 otb_table=
 dns_servers=
+tracker_status=
 
 _log() {
 	logger -t autoroute "$@"
@@ -34,7 +35,8 @@ config_get otb_metric "$OTB_TRACKER_INTERFACE" metric
 config_get otb_table "$OTB_TRACKER_INTERFACE" ip4table
 network_get_dnsserver dns_servers "$OTB_TRACKER_INTERFACE"
 
-[ "$OTB_TRACKER_STATUS" = "OK" ] && action="add" || action="del"
+tracker_status=$(otb_get_data "$OTB_TRACKER_INTERFACE/connectivity")
+[ "$tracker_status" = "OK" ] && action="add" || action="del"
 
 case "$OTB_TRACKER_INTERFACE" in
 	xtun0)

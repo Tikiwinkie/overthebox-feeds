@@ -9,10 +9,11 @@
 . /lib/overthebox
 
 # retrieve args
-OTB_TRACKER_INTERFACE="$1"
+OTB_TRACKER_LABEL="$1"
 shift
 
 # export vars
+export OTB_TRACKER_LABEL
 export OTB_TRACKER_INTERFACE
 export OTB_TRACKER_HOST
 export OTB_TRACKER_TIMEOUT
